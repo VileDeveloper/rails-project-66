@@ -1,0 +1,66 @@
+---
+ru:
+  activerecord:
+    attributes:
+      repository/check:
+        aasm_state/created: Не начата
+        aasm_state/checking: В процессе
+        aasm_state/finished: Завершена
+        aasm_state/failed: Произошла ошибка
+  layouts:
+    application:
+      title: VileDev Github Quality
+    shared:
+      nav:
+        home: Главная
+        logout: Выйти
+        repositories: Репозитории
+        sign_in_with_github: Войти с помощью Github
+  web:
+    home:
+      index:
+        greetings: Привет от Хекслета!
+        courses_description: Практические курсы по программированию
+        title: Анализатор качества репозиториев
+        project_description_html: Проект, который помогает автоматически следить за качеством репозиториев на Github. Он отслеживает изменения и прогоняет их через встроенные анализаторы. Затем формирует отчеты и отправляет их пользователю.
+        more: Узнать больше
+    auth:
+      should_sign_in: Сперва необходимо войти
+      callback:
+        success: Вы успешно вошли
+        fail: Не удалось авторизоваться
+      logout:
+        success: Вы вышли из системы
+    repositories:
+      index:
+        language: Язык
+        last_check_passed: Статус последней проверки
+        name: Название
+        new: Добавить
+        no_checks_yet: Проверок еще не было
+      show:
+        check: Проверить
+        name: Название
+        language: Язык
+        created_at: Дата создания
+        updated_at: Дата обновления
+        status: Статус
+        commit_id: ID коммита
+        check_passed: Проверка пройдена?
+      create:
+        success: Репозиторий добавлен
+      checks:
+        show:
+          check_in_progress: Проверка ещё выполняется
+          to_repository: Перейти к репозиторияю
+          title: "Проверка #%{check_id}"
+          created_at: Дата создания
+          status: Статус
+          check_passed: Проверка пройдена
+          issues_count: Количество замечаний
+          commit_id: ID коммита
+          message: Сообщение
+          rule_id: Идентификатор правила
+          line_column: Строка и символ
+        create:
+          success: Проверка началась

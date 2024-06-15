@@ -1,0 +1,21 @@
+.mt-4.mb-5.pb-5
+  .container
+    .p-4.align-items-center.border.shadow.bg-white.rounded-3
+      .mb-4
+      = link_to t('.new'), new_repository_path, class: 'btn btn-primary'
+      table.table.table-striped.table-hover.mt-4
+        thead
+          tr
+            th scope="col" = t('.name')
+            th scope="col" = t('.language')
+            th scope="col" = t('.last_check_passed')
+        tbody
+          - @repositories.each do |repository|
+            tr
+              td = link_to repository.name || '-', repository_path(repository)
+              td = repository.language
+              td
+                = repository.checks.last ? repository.checks.last.passed? : t('.no_checks_yet')
+
+= paginate @repositories, theme: 'bootstrap-5'
+

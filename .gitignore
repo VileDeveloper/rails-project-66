@@ -8,8 +8,11 @@
 /.bundle
 
 # Ignore all environment files (except templates).
-/.env*
+/.env
 !/.env*.erb
+
+# Ignore idea
+.idea
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -38,3 +41,11 @@
 !/app/assets/builds/.keep
 
 /node_modules
+
+# Ignore SQLite cache files
+/rails_project_66
+/rails_project_66-shm
+/rails_project_66-wal
+/test_rails_project_66
+/test_rails_project_66-shm
+/test_rails_project_66-wal

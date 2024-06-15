@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Ruby 3.x
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2.2
+
+      - name: Prepare project
+        run: make install
+
+      - name: Run lint (rubocop)
+        run: make lint_rubocop
+
+      - name: Run lint (slim)
+        run: make lint_slim
+
+      - name: Run tests
+        run: make test

@@ -1,0 +1,16 @@
+h1 Репозиторий #{@repository.full_name} прошел проверку успешно
+
+table
+  thead
+    tr
+      th Репозиторий
+      th Коммит
+      th Статус проверки
+  tbody
+    tr
+      td
+        = link_to @repository.full_name, "http://localhost:3000/repositories/#{@repository.id}"
+      td
+        = link_to @check.commit_id.first(6), "https://github.com/#{@repository.full_name}/commit/#{@check.commit_id.first(6)}", target: '_blank', rel: 'noopener noreferrer'
+      td
+        = @check&.aasm_state

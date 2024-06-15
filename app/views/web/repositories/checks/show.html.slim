@@ -1,0 +1,42 @@
+.mt-4.mb-5.pb-5
+  .container
+    .p-4.align-items-center.border.shadow.bg-white.rounded-3
+      .mb-4
+      = link_to t('.to_repository'), @check.repository,
+              class: 'btn btn-primary mb-4'
+      h1 = t('.title', check_id: @check.id)
+      table.table
+        tbody
+          tr
+            td = t('.created_at')
+            td = l(@check.created_at, format: :full)
+          tr
+            td = t('.status')
+            td = @check.aasm.human_state
+          tr
+            td = t('.check_passed')
+            td = @check.passed?
+          tr
+            td = t('.issues_count')
+            td = @check.details['issues_count']
+          tr
+            td = t('.commit_id')
+            td
+              - if @check.commit_id
+                = link_to_github @check, target: '_blank'
+      table.table.table-hover.mb-5
+        thead
+          tr
+            th = t('.message')
+            th = t('.rule_id')
+            th = t('.line_column')
+            tbody
+              - @check_result[:files].each do |file_record|
+                tr
+                  td colspan=3
+                    = link_to_github @check, file_path: file_record['file_path'], target: '_blank'
+                - file_record[:offenses].each do |offense|
+                  tr
+                    td = offense[:message]
+                    td = offense[:rule]
+                    td = offense[:location]
