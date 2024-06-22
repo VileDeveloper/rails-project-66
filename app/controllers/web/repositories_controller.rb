@@ -28,7 +28,7 @@ class Web::RepositoriesController < Web::ApplicationController
     authorize @repository
 
     if @repository.save
-      UpdateInfoRepositoryJob.perform_now(@repository.id)
+      UpdateInfoRepositoryJob.perform_later(@repository.id)
       redirect_to repositories_path, notice: t('.success')
     else
       flash[:alert] = @repository.errors.full_messages.join('\n')

@@ -20,7 +20,7 @@ class Web::Repositories::ChecksController < Web::Repositories::ApplicationContro
     check = @repository.checks.create!
     authorize check
 
-    CheckRepositoryJob.perform_now(check.id)
+    CheckRepositoryJob.perform_later(check.id)
 
     flash[:notice] = t('.success')
     redirect_to @repository
