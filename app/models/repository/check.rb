@@ -14,7 +14,7 @@ class Repository::Check < ApplicationRecord
     end
 
     event :finish do
-    transitions from: :checking, to: :finished
+      transitions from: :checking, to: :finished
     end
 
     event :fail do

@@ -31,6 +31,4 @@ This project displays the results of linter checks for public user repositories.
   ```bash
   make lint
   ```
-  Runs RuboCop 8for linting.
-
-[GitHub](https://github.com/VileDeveloper)
+  Runs RuboCop for linting.

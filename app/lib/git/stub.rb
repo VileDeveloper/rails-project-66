@@ -2,7 +2,7 @@
 
 class Git::Stub
   class << self
-    def clone(_git_url, _path_to_clone)
+    def clone(_clone_url, _path_to_clone)
       true
     end
   end

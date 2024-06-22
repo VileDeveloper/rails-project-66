@@ -12,7 +12,7 @@ class Web::Repositories::ChecksController < Web::Repositories::ApplicationContro
       redirect_to @check.repository and return
     end
 
-    parsed_check_details = @check.details.presence || {}
+    parsed_check_details = JSON.parse(@check.details.presence || '{}')
     @check_result = LogFormatter.format(parsed_check_details, @check.repository.language)
   end
 

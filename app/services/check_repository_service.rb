@@ -13,11 +13,11 @@ class CheckRepositoryService
     begin
       check.run_check!
 
-      repository_path = path_to_repository(repository)
+      repository_path = repository.path_to_directory
 
       clean_repository_path(bash_runner, repository_path)
 
-      git.clone(repository.git_url, repository_path)
+      git.clone(repository.clone_url, repository_path)
 
       check.commit_id = commit_id(bash_runner, repository_path)
 
@@ -27,14 +27,14 @@ class CheckRepositoryService
       check.details = check_details
       check.passed = exit_status.zero?
 
-      check.mark_as_finish!
+      check.finish!
     rescue StandardError => e
       check.passed = false
-      check.mark_as_fail!
+      check.fail!
       Rails.logger.error e
     end
 
-    send_result_mail(check, user)
+    send_mail_by_result(check, user, repository)
 
     true
   end
@@ -49,13 +49,13 @@ class CheckRepositoryService
     @git ||= AppContainer[:git]
   end
 
-  def send_mail_by_result(user, check)
+  def send_mail_by_result(check, user, repository)
     if check.failed?
-      CheckResultMailer.with(user:, check:, repositroy:).error_check_email.deliver_later
+      CheckResultMailer.with(user:, check:, repository:).error_check_email.deliver_later
     elsif !check.passed
-      CheckResultMailer.with(user:, check:, repositroy:).failed_check_email.deliver_later
+      CheckResultMailer.with(user:, check:, repository:).failed_check_email.deliver_later
     else
-      CheckResultMailer.with(user:, check:, repositroy:).passed_check_email.deliver_later
+      CheckResultMailer.with(user:, check:, repository:).passed_check_email.deliver_later
     end
   end
 
@@ -87,16 +87,13 @@ class CheckRepositoryService
     path_to_repository = repository.path_to_directory
     mapping = {
       javascript: "node_modules/eslint/bin/eslint.js #{path_to_repository} --format=json --config ./.eslintrc.yml  --no-eslintrc",
-      ruby: "bundle exec rubocop #{path_to_repository} --format=json --config ./.rubocop.yml"
+      ruby: "bundle exec rubocop #{path_to_repository} --format=json --config ./rubocop.yml"
     }
 
     command = mapping[repository.language.to_sym]
+
     Rails.logger.debug command
 
     command
-  end
-
-  def path_to_repository(repository)
-    File.join(Dir.tmpdir, 'check_quality_repositories/', repository.full_name)
   end
 end

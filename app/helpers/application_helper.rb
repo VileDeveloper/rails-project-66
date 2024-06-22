@@ -2,17 +2,23 @@
 
 module ApplicationHelper
   def link_to_github(check, options = {})
-    commit = commit_id check.commit_id
+    commit_id = check.commit_id
+
+    return '' if check.commit_id.blank?
+
     file_path = options.delete(:file_path)
-    link_name = file_path.nil? ? commit : file_path
-    commit_path = file_path.nil? ? "/commit/#{commit}" : "/tree/#{commit}/#{file_path}"
 
-    link_to link_name, "https://github.com/#{check.repository.full_name}#{commit_path}", options
-  end
+    commit_path =
+      if file_path.present?
+        file_relative_path = file_path.remove(check.repository.path_to_directory).delete_prefix('/')
 
-  private
+        "/tree/#{commit_id}/#{file_relative_path}"
+      else
+        "/commit/#{commit_id}"
+      end
 
-  def commit_id(commit_hash)
-    commit_hash.slice(..6)
+    repository_full_name = check.repository.full_name
+
+    link_to file_relative_path, "https://github.com/#{repository_full_name}#{commit_path}", options
   end
 end

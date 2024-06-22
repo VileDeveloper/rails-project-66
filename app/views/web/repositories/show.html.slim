@@ -35,7 +35,7 @@
                 td = check.aasm.human_state
                 td
                   - if check.commit_id
-                    = link_to_github check, target: '_blank'
+                    = link_to_github(check, target: '_blank')
                 td = check.passed?
                 td = l(check.created_at, format: :short)
         = paginate @checks

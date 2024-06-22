@@ -18,12 +18,12 @@
             td = @check.passed?
           tr
             td = t('.issues_count')
-            td = @check.details['issues_count']
+            td = @check_result[:offense_count]
           tr
             td = t('.commit_id')
             td
               - if @check.commit_id
-                = link_to_github @check, target: '_blank'
+                = link_to_github(@check, target: '_blank')
       table.table.table-hover.mb-5
         thead
           tr
@@ -34,7 +34,7 @@
               - @check_result[:files].each do |file_record|
                 tr
                   td colspan=3
-                    = link_to_github @check, file_path: file_record['file_path'], target: '_blank'
+                    = link_to_github(@check, file_path: file_record[:path])
                 - file_record[:offenses].each do |offense|
                   tr
                     td = offense[:message]
