@@ -1,5 +1,4 @@
 ---
-
 require:
   - rubocop-performance
   - rubocop-rails
@@ -9,14 +8,12 @@ AllCops:
   TargetRubyVersion: 3.2.2
   TargetRailsVersion: 7
   Exclude:
-    - 'code/bin/**'
-    - 'code/db/schema.rb'
-    - 'code/db/migrate/**'
-    - 'code/vendor/**/*'
-    - 'code/node_modules/**/*'
-    - 'vendor/**/*'
-    - 'node_modules/**/*'
-    - 'code/tmp/**/*'
+    - "bin/**"
+    - "db/schema.rb"
+    - "db/migrate/**"
+    - "vendor/**/*"
+    - "node_modules/**/*"
+    - "tmp/**/*"
   SuggestExtensions: false
 
 Rails:
