@@ -4,8 +4,10 @@ require 'test_helper'
 
 module Web
   class HomeControllerTest < ActionDispatch::IntegrationTest
-    # test "the truth" do
-    #   assert true
-    # end
+    test '#show' do
+      get root_path
+
+      assert_response :success
+    end
   end
 end

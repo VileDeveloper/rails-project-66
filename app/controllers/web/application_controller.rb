@@ -1,18 +1,20 @@
 # frozen_string_literal: true
 
-class Web::ApplicationController < ApplicationController
-  include Pundit::Authorization
-  include AuthManagement
+module Web
+  class ApplicationController < ApplicationController
+    include Pundit::Authorization
+    include AuthManagement
 
-  before_action :authenticate_user!
+    before_action :authenticate_user!
 
-  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+    rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
-  private
+    private
 
-  def user_not_authorized
-    flash[:alert] = t('flash.not_authorized')
+    def user_not_authorized
+      flash[:alert] = t('flash.not_authorized')
 
-    redirect_to root_path
+      redirect_to root_path
+    end
   end
 end

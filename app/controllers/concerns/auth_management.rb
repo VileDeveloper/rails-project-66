@@ -11,12 +11,6 @@ module AuthManagement
     redirect_to root_path, notice: t('.notice')
   end
 
-  def check_current_user
-    return if current_user
-
-    redirect_to root_path, notice: t('.notice')
-  end
-
   def signed_in?
     session[:user_id].present? && current_user.present?
   end

@@ -2,7 +2,7 @@
 
 module Web
   class AuthController < Web::ApplicationController
-    skip_before_action :authenticate_user!, only: [:callback]
+    skip_before_action :authenticate_user!
 
     def callback
       data = request.env['omniauth.auth']
@@ -28,12 +28,12 @@ module Web
     private
 
     def get_user_by(data)
-      email = data['info']['email']
+      email = data.dig('info', 'email')
 
       user = User.find_or_initialize_by(email:)
 
-      user.token = data['credentials']['token']
-      user.nickname = data['info']['nickname']
+      user.token = data.dig('credentials', 'token')
+      user.nickname = data.dig('info', 'nickname')
       user.provider = data['provider']
       user.uid = data['uid']
 

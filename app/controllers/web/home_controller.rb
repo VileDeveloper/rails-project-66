@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
-class Web::HomeController < Web::ApplicationController
-  skip_before_action :authenticate_user!, only: [:index]
+module Web
+  class HomeController < Web::ApplicationController
+    skip_before_action :authenticate_user!, only: [:index]
 
-  def index; end
+    def index; end
+  end
 end

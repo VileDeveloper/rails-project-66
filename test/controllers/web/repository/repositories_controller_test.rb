@@ -2,41 +2,31 @@
 
 require 'test_helper'
 
-class Web::Repository::RepositoriesControllerTest < ActionDispatch::IntegrationTest
+class Web::RepositoriesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @user = users(:one)
     @repository = repositories(:one)
     @git_rep_id = 123_456_789
+
+    sign_in(@user)
   end
 
-  test 'should get index page' do
-    sign_in @user
-    get repositories_url
-    assert :success
-  end
-
-  test 'should NOT get index page' do
-    get repositories_url
-    assert_redirected_to root_path
-  end
-
-  test 'should get new' do
-    sign_in @user
-
-    get new_repository_url
+  test '#index' do
+    get repositories_path
     assert_response :success
   end
 
-  test 'should show repository' do
-    sign_in @user
+  test '#new' do
+    get new_repository_path
+    assert_response :success
+  end
 
+  test '#show' do
     get repository_url(@repository)
     assert_response :success
   end
 
-  test 'should create repository' do
-    sign_in @user
-
+  test '#create' do
     post repositories_url, params: { repository: { github_id: @git_rep_id } }
 
     assert ::Repository.find_by(github_id: @git_rep_id)

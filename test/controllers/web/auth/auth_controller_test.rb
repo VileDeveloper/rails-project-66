@@ -2,33 +2,32 @@
 
 require 'test_helper'
 
-class Web::Auth::AuthControllerTest < ActionDispatch::IntegrationTest
-  test 'check github auth' do
-    post auth_request_path('github')
-    assert_response :redirect
-  end
+module Web
+  class AuthControllerTest < ActionDispatch::IntegrationTest
+    setup do
+      @user = users(:one)
+    end
 
-  test 'create' do
-    auth_hash = {
-      provider: 'github',
-      uid: '12345',
-      info: {
-        email: Faker::Internet.email,
-        nickname: Faker::Name.first_name
-      },
-      credentials: {
-        token: Faker::Name.first_name
-      }
-    }
+    test '#request' do
+      post auth_request_path('github')
 
-    OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash::InfoHash.new(auth_hash)
+      assert_response :redirect
+    end
 
-    get callback_auth_url('github')
-    assert_response :redirect
+    test '#callback' do
+      sign_in(@user)
 
-    user = User.find_by(email: auth_hash[:info][:email].downcase)
+      assert_redirected_to root_path
+      assert User.find(@user.id)
+      assert { signed_in? }
+      assert_equal flash[:notice], I18n.t('web.auth.callback.success')
+    end
 
-    assert user
-    assert signed_in?
+    test '#logout' do
+      post auth_logout_path
+
+      assert_response :redirect
+      assert_equal flash[:notice], I18n.t('web.auth.logout.success')
+    end
   end
 end

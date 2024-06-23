@@ -1,4 +1,8 @@
 # frozen_string_literal: true
 
-class Web::Repositories::ApplicationController < Web::ApplicationController
+module Web
+  module Repositories
+    class ApplicationController < Web::ApplicationController
+    end
+  end
 end
