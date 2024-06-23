@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Github::ClientStub
+  attr_reader :current_repository, :user, :client
+
   REPOSITORY = {
     id: 123_456_789,
     ssh_url: 'git@github.com:VileDevelper/ruby_project.git',
@@ -49,6 +51,10 @@ class Github::ClientStub
     current_repository.assign_attributes(repository_atttributes)
 
     current_repository.save!
+  end
+
+  def create_hook
+    true
   end
 
   def repository_params

@@ -16,7 +16,8 @@ class Web::Repository::ChecksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test '#create' do
-    post repository_checks_url(@repository), params: { repository: { id: @repository.id, full_name: @repository.full_name }}
+    post repository_checks_url(@repository),
+         params: { repository: { id: @repository.id, full_name: @repository.full_name } }
 
     assert ::Repository::Check.find_by(repository: @repository)
   end

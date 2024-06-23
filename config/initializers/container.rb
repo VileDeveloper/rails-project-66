@@ -5,7 +5,7 @@ class AppContainer
 
   if Rails.env.test?
     register :bash_runner, -> { Bash::RunnerStub }
-    register :git, -> { Git::GitStub }
+    register :git, -> { Git::Stub }
     register :github_client, -> { Github::ClientStub }
   else
     register :bash_runner, -> { Bash::Runner }
