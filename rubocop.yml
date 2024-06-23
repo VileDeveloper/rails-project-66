@@ -6,6 +6,8 @@ require:
 
 AllCops:
   NewCops: enable
+  TargetRubyVersion: 3.2.2
+  TargetRailsVersion: 7
   Exclude:
     - 'code/bin/**'
     - 'code/db/schema.rb'
