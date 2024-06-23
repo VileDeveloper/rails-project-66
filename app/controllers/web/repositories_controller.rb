@@ -6,7 +6,7 @@ module Web
     before_action :set_github_client
 
     def index
-      @repositories = current_user.repositories.page(params[:page])
+      @repositories = current_user.repositories.includes(:checks).page(params[:page])
     end
 
     def show
