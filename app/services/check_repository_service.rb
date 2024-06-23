@@ -87,7 +87,7 @@ class CheckRepositoryService
     path_to_repository = repository.path_to_directory
     mapping = {
       javascript: "node_modules/eslint/bin/eslint.js #{path_to_repository} --format=json --config ./.eslintrc.yml  --no-eslintrc",
-      ruby: "bundle exec rubocop #{path_to_repository} --format=json --config ./rubocop.yml"
+      ruby: "bundle exec rubocop #{path_to_repository} --format=json --config ./.rubocop.yml"
     }
 
     command = mapping[repository.language.to_sym]
