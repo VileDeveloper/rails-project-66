@@ -5,8 +5,9 @@ Rails.application.routes.draw do
     root 'home#index'
 
     get 'auth/:provider/callback', to: 'auth#callback', as: :callback_auth
-    post 'auth/logout', to: 'auth#logout', as: :auth_logout
     post 'auth/:provider', to: 'auth#request', as: :auth_request
+
+    delete 'auth/logout'
 
     resources :repositories, only: %i[index show new create update] do
       scope module: :repositories do

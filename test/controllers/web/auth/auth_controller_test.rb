@@ -24,7 +24,7 @@ module Web
     end
 
     test '#logout' do
-      post auth_logout_path
+      delete auth_logout_path
 
       assert_response :redirect
       assert_equal flash[:notice], I18n.t('web.auth.logout.success')

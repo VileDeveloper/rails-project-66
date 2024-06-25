@@ -3,10 +3,9 @@
 module Web
   module Repositories
     class ChecksController < Web::Repositories::ApplicationController
-      before_action :set_check, only: :show
-      before_action :set_repository, only: :create
-
       def show
+        @check = ::Repository::Check.includes(:repository).find(params[:id])
+
         authorize @check
 
         if !@check.finished? && !@check.failed?
@@ -19,23 +18,15 @@ module Web
       end
 
       def create
+        @repository = ::Repository.find(params[:repository_id])
         check = @repository.checks.create!
+
         authorize check
 
         CheckRepositoryJob.perform_later(check.id)
 
         flash[:notice] = t('.success')
         redirect_to @repository
-      end
-
-      private
-
-      def set_check
-        @check = ::Repository::Check.includes(:repository).find(params[:id])
-      end
-
-      def set_repository
-        @repository = ::Repository.find(params[:repository_id])
       end
     end
   end

@@ -2,14 +2,13 @@
 
 module Web
   class RepositoriesController < Web::ApplicationController
-    before_action :set_repository, only: [:show]
-    before_action :set_github_client
-
     def index
       @repositories = current_user.repositories.includes(:checks).page(params[:page])
     end
 
     def show
+      @repository = ::Repository.find(params[:id])
+
       authorize @repository
 
       @checks = @repository.checks.order(id: :desc).page(params[:page])
@@ -17,6 +16,7 @@ module Web
 
     def new
       @repository = current_user.repositories.build
+      @github_client = AppContainer[:github_client].new(repository: @repository, user: current_user)
 
       authorize @repository
 
@@ -41,14 +41,6 @@ module Web
 
     def repository_params
       params.require(:repository).permit(:github_id)
-    end
-
-    def set_repository
-      @repository = ::Repository.find(params[:id])
-    end
-
-    def set_github_client
-      @github_client = AppContainer[:github_client].new(repository: @repository, user: current_user)
     end
 
     def fetch_github_repositories

@@ -20,8 +20,8 @@ module Web
 
     def logout
       session.delete('user_id')
-
       flash[:notice] = t('.success')
+
       redirect_to root_path
     end
 
